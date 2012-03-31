@@ -244,6 +244,7 @@ typedef void (^data_callback)(SRWebSocket *webSocket,  NSData *data);
 
 @implementation SRWebSocket {
     NSInteger _webSocketVersion;
+    NSString *_webSocketProtocol;
     dispatch_queue_t _callbackQueue;
     dispatch_queue_t _workQueue;
     NSMutableArray *_consumers;
@@ -325,6 +326,7 @@ static __strong NSData *CRLFCRLF;
     _consumerStopped = YES;
     
     _webSocketVersion = 13;
+    _webSocketProtocol = @"dumb-increment-protocol";
     
     _workQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
     
@@ -468,6 +470,7 @@ static __strong NSData *CRLFCRLF;
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Connection"), CFSTR("Upgrade"));
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Key"), (__bridge CFStringRef)_secKey);
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Version"), (__bridge CFStringRef)[NSString stringWithFormat:@"%d", _webSocketVersion]);
+    CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Sec-WebSocket-Protocol"), (__bridge CFStringRef)_webSocketProtocol);
     CFHTTPMessageSetHeaderFieldValue(request, CFSTR("Origin"), (__bridge CFStringRef)_url.absoluteString);
     
     NSData *message = CFBridgingRelease(CFHTTPMessageCopySerializedMessage(request));
