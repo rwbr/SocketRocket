@@ -37,6 +37,7 @@ extern NSString *const SRWebSocketErrorDomain;
 @property (nonatomic, readonly) SRReadyState readyState;
 @property (nonatomic, readonly, retain) NSURL *url;
 
+- (id)initWithURLRequest:(NSURLRequest *)request protocol:(NSArray *)protocol;
 - (id)initWithURLRequest:(NSURLRequest *)request;
 
 - (void)open;

@@ -297,6 +297,12 @@ static __strong NSData *CRLFCRLF;
     CRLFCRLF = [[NSData alloc] initWithBytes:"\r\n\r\n" length:4];
 }
 
+- (id)initWithURLRequest:(NSURLRequest *)request protocol:(NSArray *)protocol
+{
+    _webSocketProtocol = [protocol componentsJoinedByString:@","];
+    return [self initWithURLRequest:request];
+}
+
 - (id)initWithURLRequest:(NSURLRequest *)request;
 {
     self = [super init];
@@ -326,7 +332,6 @@ static __strong NSData *CRLFCRLF;
     _consumerStopped = YES;
     
     _webSocketVersion = 13;
-    _webSocketProtocol = @"dumb-increment-protocol";
     
     _workQueue = dispatch_queue_create(NULL, DISPATCH_QUEUE_SERIAL);
     
